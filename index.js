@@ -1,12 +1,17 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser')
 const { MongoClient, ObjectId } = require('mongodb');
 var jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+    origin:['http://localhost:5173/'],
+    credentials:true
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 const uri = `mongodb+srv://${process.env.VITE_USER}:${process.env.VITE_PASS}@cluster0.35x3s48.mongodb.net`;
 
@@ -32,8 +37,15 @@ async function run() {
                 httpOnly:true,
                 secure:false,
                 sameSite:'none'
+
             }).
             send({success: true});
+        })
+
+
+        // get oparetion
+        app.get('/services', async(req, res)=>{
+            
         })
 
 
